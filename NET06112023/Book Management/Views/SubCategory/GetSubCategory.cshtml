@@ -1,0 +1,32 @@
+﻿@model List<Book_Management.Models.SubcategoryMst>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+            <a class=" btn btn-success " style="float:right;" asp-action="AddSubCategory">New SubCategory</a>
+
+            <table class="table table-bordered " id="tbllist">
+                <thead>
+                    <tr class="text-center">
+                        <th>Category Name</th>
+                        <th>SubCategory Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr class="Text-center">
+                        <td>@item.CategoryName</td>
+                        <td>@item.SubcategoryName</td>
+                        <td>
+                            <a class=" btn btn-warning m-1" asp-action="UpdateSubCategory" asp-route-id="@item.SubcategoryId">Edit</a>
+                            <a class=" btn btn-danger m-1" asp-action="DeleteSubCategory" asp-route-id="@item.SubcategoryId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

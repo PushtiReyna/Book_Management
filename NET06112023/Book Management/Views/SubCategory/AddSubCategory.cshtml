@@ -1,0 +1,59 @@
+﻿@model Book_Management.Models.SubcategoryMst
+
+
+<div class="form-row">
+
+    <h4>Create SubCategory</h4>
+
+    <div class="text-success">
+
+        <div class="mb-3">
+            @if (TempData["subcategoryAdded"] != null)
+            {
+                <p class="text-success" id='message'>@TempData["subcategoryAdded"]</p>
+            }
+
+        </div>
+    </div>
+
+
+    <form method="post" asp-action="AddSubCategory">
+
+        <div class="form-group col-md-6">
+            <label>Category Name</label>
+            <select class="form-control" asp-for="CategoryId" id="categorylist" asp-items="ViewBag.categoryList">
+                <option>Select category</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label> SubCategory name</label>
+            <input type="text" class="form-control" asp-for="SubcategoryName" placeholder="Enter SubcategoryName" />
+            <span asp-validation-for="SubcategoryName" class="text-danger"></span>
+            @if (ViewBag.Message != null)
+            {
+                <p class="text-danger" id='message'>@ViewBag.Message</p>
+            }
+        </div>
+
+        <div class="col-12">
+
+            <button type="submit" class="btn btn-primary text-center">Save</button>
+            <a class="btn btn-danger m-1 text-white text-center" asp-action="GetSubCategory">Cancel</a>
+
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script type="text/javascript">
+            setTimeout(function () {
+                $('#message').hide(3000);
+            });
+        </script>
+    }
+}

@@ -1,0 +1,92 @@
+﻿@model List<Book_Management.Models.CategoryMst>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+            <a class=" btn btn-success " style="float:right;" asp-action="AddCategory">New Category</a>
+
+            <table class="table table-bordered " id="tbllist">
+                <thead>
+                    <tr class="text-center">
+                        <th>CategoryName</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr class="Text-center">
+                        <td>@item.CategoryName</td>
+                        <td>
+                            <a class=" btn btn-warning m-1" asp-action="UpdateCategory" asp-route-id="@item.CategoryId">Edit</a>
+                            <a class=" btn btn-danger m-1" asp-action="DeleteCategory" asp-route-id="@item.CategoryId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+@*
+@section Scripts
+    {
+    <script type="text/javascript">
+        debugger;
+        var dataTable;
+        $(document).ready(function () {
+
+            dataTable = $('#tbllist').DataTable({
+
+                "paging": true,
+                "filter": true,
+                "sorting": true,
+
+
+                "ajax": {
+                "url": "/Category/Get",
+                    "type": "GET",
+                    "datatpe": "json"
+                },
+                "columns": [
+                    { "data": "CategoryName" },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<button class="btn btn-success" onclick="edit(' + data + ')">Edit</button>'
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<button class="btn btn-danger" onclick="Delete(' + data + ')">Delete</button>'
+                        }
+                    },
+                ]
+            });
+
+        });
+
+
+
+        function edit(id) {
+
+            $.get("/Client/Update", { id: id }, function (res) {
+
+            })
+        }
+
+        function Updateuser() {
+            var form = $('form[name ="updateUser"]');
+
+                var data = form.serialize();
+            $.post("/Client/Updateuser", data, function (res) {
+                    if (res) {
+                        dataTable.ajax.reload();
+                    }
+                })
+
+        }
+
+
+        </script>
+        }*@
