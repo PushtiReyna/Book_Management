@@ -11215,11 +11215,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\project\\NET06112023\\Book Management\\Book Management.csproj",
+      "projectUniqueName": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\Book Management.csproj",
       "projectName": "Book Management",
-      "projectPath": "D:\\project\\NET06112023\\Book Management\\Book Management.csproj",
+      "projectPath": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\Book Management.csproj",
       "packagesPath": "C:\\Users\\Reyna\\.nuget\\packages\\",
-      "outputPath": "D:\\project\\NET06112023\\Book Management\\obj\\",
+      "outputPath": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Reyna\\AppData\\Roaming\\NuGet\\NuGet.Config",

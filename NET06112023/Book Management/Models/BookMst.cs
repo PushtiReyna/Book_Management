@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Book_Management.Models;
@@ -43,6 +44,17 @@ public partial class BookMst
     public int UpdateBy { get; set; }
 
     public DateTime? UpdatedOn { get; set; }
+
+    //[NotMapped]
+    //public IFormFile Image { get; set; }
+    //[NotMapped] 
+    //public IFormFile File { get; set; }
+
+    [NotMapped]
+    public IFormFile Image { get; set; }
+
+    [NotMapped]
+    public IFormFile File { get; set; }
 
     [NotMapped]
     public string CategoryName { get; set; }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sMLZ9WHiGWW/PNA3LYYDQ41rwQgTvD1vhcSixbcXELOWm7hgLKm5viRS8FtGN7/YVLeE7DbWy22xqyoNYdlubw==",
+  "dgSpecHash": "VHPEicHGn32q3jjdaQbguqvr41BwKygxyRpXYTKVOOuz5ZMyp5kJRKIvWEus42JALKDB6volJuzfZndZ2jwcxQ==",
   "success": true,
-  "projectFilePath": "D:\\project\\NET06112023\\Book Management\\Book Management.csproj",
+  "projectFilePath": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\Book Management.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Reyna\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Reyna\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

@@ -50,6 +50,7 @@ namespace Book_Management.Controllers
             CategoryList();
 
             ModelState.Remove("CategoryId");
+            ModelState.Remove("SubcategoryId");
             ModelState.Remove("CategoryName");
             if (ModelState.IsValid)
             {
@@ -99,7 +100,7 @@ namespace Book_Management.Controllers
             if (updateSubCategory != null)
             {
                 var subcategoryList = _db.SubcategoryMsts.Where(x => x.IsDelete == false).ToList();
-                if (subcategoryList.Where(u => u.SubcategoryName == subcategory.SubcategoryName).ToList().Count > 0)
+                if (subcategoryList.Where(u => u.SubcategoryName == subcategory.SubcategoryName && u.SubcategoryId != subcategory.SubcategoryId).ToList().Count > 0)
                 {
                     ViewBag.Message = "categoryname is already Exists.";
                     return View();

@@ -1,15 +1,18 @@
-﻿@model Book_Management.ViewModel.BookViewModel
+﻿@model Book_Management.Models.BookMst
 
 
 <div class="form-row">
-    <hr/>
+    <hr />
     <h4>Books</h4>
 
-    
-    <form method="post" asp-action="AddBook" enctype="multipart/form-data">
+
+    <form method="post" asp-action="UpdateBook" enctype="multipart/form-data">
+
+              <input type="hidden" class=" form-control" asp-for=BookId readonly />
+
         <div class="form-group col-md-6">
-            <label class="form-group ">Category Name</label>
-            <select class="form-group col-md-12" asp-for="CategoryId" id="CategoryId" asp-items="ViewBag.categoryList" SelectedValue>
+            <label>Category Name</label>
+            <select class="form-control" asp-for="CategoryId" id="CategoryId" asp-items="ViewBag.categoryList">
                 <option>Select category</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -17,7 +20,7 @@
 
         <div class="form-group col-md-6">
             <label>subcategory Name</label>
-            <select class="form-control" asp-for="SubcategoryId" id="SubcategoryId" asp-items="@(new SelectList(string.Empty,"SubcategoryId","SubcategoryName"))" SelectedValue>
+            <select class="form-control" asp-for="SubcategoryId" id="SubcategoryId" asp-items="ViewBag.stateName">
                 <option>Select subcategory</option>
             </select>
             <span asp-validation-for="SubcategoryId" class="text-danger"></span>
@@ -69,24 +72,24 @@
             <input type="number" class="form-control" asp-for="Price" placeholder="Enter Price" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
-       
+
 
         <div class="form-group col-md-6 mb-3">
             <label class=" form-label"> CoverImagePath</label>
-            <input type="file" class=" form-control" asp-for=Image />
-            <span asp-validation-for="Image" class="text-danger"></span>
+            <input type="file" class=" form-control" asp-for=CoverImagePath />
+            <span asp-validation-for="CoverImagePath" class="text-danger"></span>
         </div>
 
         <div class="form-group col-md-6 mb-3">
             <label> PdfPath</label>
-            <input type="file" class="form-control" asp-for="File"  />
-            <span asp-validation-for="File" class="text-danger"></span>
+            <input type="file" class="form-control" asp-for="PdfPath" />
+            <span asp-validation-for="PdfPath" class="text-danger"></span>
         </div>
 
-      
+
         <div class="col-12">
 
-            <button type="submit" class="btn btn-primary text-center">Save</button>
+            <button type="submit" class="btn btn-primary text-center">Update</button>
             <a class="btn btn-danger m-1 text-white text-center" asp-action="GetBook">Cancel</a>
 
         </div>
@@ -105,26 +108,26 @@
     }
 
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-        debugger;
-        $('#CategoryId').change(function () {
+            debugger;
+            $('#CategoryId').change(function () {
 
-            var url = '@Url.Content("~/")' + "Book/GetSubCategory";
-            var ddlsource = "#CategoryId";
-            $.getJSON(url, { CategoryId: $(ddlsource).val() }, function (data) {
-                var items = '';
-                $("#SubcategoryId").empty();
-                $.each(data, function (i, subcategory) {
-                    items += "<option value = '" + subcategory.value + "'>" + subcategory.text + "</option>";
+                var url = '@Url.Content("~/")' + "Book/GetSubCategory";
+                var ddlsource = "#CategoryId";
+                $.getJSON(url, { CategoryId: $(ddlsource).val() }, function (data) {
+                    var items = '';
+                    $("#SubcategoryId").empty();
+                    $.each(data, function (i, subcategory) {
+                        items += "<option value = '" + subcategory.value + "'>" + subcategory.text + "</option>";
+                    });
+                    $("#SubcategoryId").html(items);
                 });
-                $("#SubcategoryId").html(items);
             });
         });
-    });
-</script>
+    </script>
 }

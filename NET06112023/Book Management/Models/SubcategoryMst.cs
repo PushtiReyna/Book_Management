@@ -7,12 +7,14 @@ namespace Book_Management.Models;
 
 public partial class SubcategoryMst
 {
+
+    [Required, Range(1, int.MaxValue, ErrorMessage = "Please Select Subcategory.")]
     public int SubcategoryId { get; set; }
 
     [Required(ErrorMessage = "Please Enter CategoryName Name")]
     public string SubcategoryName { get; set; } = null!;
 
-    [Required(ErrorMessage = "Please select category")]
+    [Required, Range(1, int.MaxValue, ErrorMessage = "Please Select category.")]
     public int CategoryId { get; set; }
 
     public bool IsActive { get; set; }

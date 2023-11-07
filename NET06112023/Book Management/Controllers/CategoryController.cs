@@ -37,6 +37,9 @@ namespace Book_Management.Controllers
         [HttpPost]
         public IActionResult AddCategory(CategoryMst category)
         {
+
+            ModelState.Remove("CategoryId");
+
             if (ModelState.IsValid)
             {
                 CategoryMst categoryMst = new CategoryMst();
@@ -81,7 +84,7 @@ namespace Book_Management.Controllers
             if (updateCategory != null)
             {
                 var categoryList = _db.CategoryMsts.Where(x => x.IsDelete == false).ToList();
-                if (categoryList.Where(u => u.CategoryName == category.CategoryName).ToList().Count > 0)
+                if (categoryList.Where(u => u.CategoryName == category.CategoryName && u.CategoryId != category.CategoryId).ToList().Count > 0)
                 {
                     ViewBag.Message = "categoryname is already Exists.";
                     return View();

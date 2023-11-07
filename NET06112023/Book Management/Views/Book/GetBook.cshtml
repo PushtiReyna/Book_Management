@@ -1,6 +1,39 @@
-﻿
-<div class="mb-5">
-   <hr/>
+﻿@model List<Book_Management.Models.BookMst>
 
-<a class=" btn btn-success " style="float:right;" asp-action="AddBook">Add Book</a>
+
+<div class="mb-5">
+    <hr />
+
+    <a class=" btn btn-success " style="float:right;" asp-action="AddBook">Add Book</a>
+
+</div>
+<div class="row">
+    <div class="col-6">
+
+        <table class="table table-responsive" id="tbllist" style="border:none">
+        <thead>
+                <tr class="text-center" width="300px" style="border:none">
+                <th></th>
+            </tr>
+                <tr style="border:none">
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            
+            <tr >
+                    <td style="border:none"> <img src="@("~/Images/"+item.CoverImagePath)" asp-append-version="true" height="100px" width="300px" />    </td>
+               
+            </tr>
+            <tr>
+                <td>
+                    <a class=" btn btn-warning m-1" asp-action="UpdateBook" asp-route-id="@item.BookId">Edit</a>
+                    <a class=" btn btn-warning m-1" asp-action="" asp-route-id="@item.BookId">Download</a>
+                    <a class=" btn btn-danger m-1" asp-action="DeleteBook" asp-route-id="@item.BookId">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
 </div>
