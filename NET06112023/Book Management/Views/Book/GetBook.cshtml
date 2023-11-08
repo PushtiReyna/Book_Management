@@ -11,29 +11,43 @@
     <div class="col-6">
 
         <table class="table table-responsive" id="tbllist" style="border:none">
-        <thead>
+            <thead>
                 <tr class="text-center" width="300px" style="border:none">
-                <th></th>
-            </tr>
-                <tr style="border:none">
-                <th></th>
-            </tr>
-        </thead>
-        @foreach (var item in Model)
-        {
-            
-            <tr >
+                    <th></th>
+                    @*</tr>
+                    <tr style="border:none">*@
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+
+                <tr>
                     <td style="border:none"> <img src="@("~/Images/"+item.CoverImagePath)" asp-append-version="true" height="100px" width="300px" />    </td>
-               
-            </tr>
-            <tr>
-                <td>
-                    <a class=" btn btn-warning m-1" asp-action="UpdateBook" asp-route-id="@item.BookId">Edit</a>
-                    <a class=" btn btn-warning m-1" asp-action="" asp-route-id="@item.BookId">Download</a>
-                    <a class=" btn btn-danger m-1" asp-action="DeleteBook" asp-route-id="@item.BookId">Delete</a>
-                </td>
-            </tr>
-        }
-    </table>
+                    @*</tr>
+                <tr>*@
+                    <td>
+                        <a class=" btn btn-warning m-1" asp-action="UpdateBook" asp-route-id="@item.BookId">Edit</a>
+                        <a class="btn btn-warning m-1" asp-action="DownloadBook" asp-route-id="@item.BookId">Download</a>
+                        <a class=" btn btn-danger m-1" onclick="alert()" asp-action="DeleteBook" asp-route-id="@item.BookId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
-</div>
+
+@section scripts{
+    @{
+
+        <script type="text/javascript">
+        debugger;
+            
+                function (alert) {
+                    window.alert("Hello world!");
+                }
+                       
+                       
+        </script>
+    }
+}

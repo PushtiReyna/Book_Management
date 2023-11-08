@@ -161,10 +161,25 @@ namespace Book_Management.Controllers
 
                 _db.Entry(deleteBook).State = EntityState.Modified;
                 _db.SaveChanges();
+                
             }
             return RedirectToAction("GetBook");
         }
 
+        public IActionResult DownloadBook(int id)
+        {
+            var deleteBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id && x.IsDelete == false);
+            if (deleteBook != null)
+            {
+                string filePath = deleteBook.PdfPath;
+                string fileName = deleteBook.BookName;
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+                return File(fileBytes, "application/force-download", fileName);
+            }
+            return RedirectToAction("GetBook");
+        }
 
         private string UploadImage(IFormFile Image)
         {
@@ -196,6 +211,7 @@ namespace Book_Management.Controllers
             //return filePath;
             return fileName;
         }
+
 
 
         [NonAction]

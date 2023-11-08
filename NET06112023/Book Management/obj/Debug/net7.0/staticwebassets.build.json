@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MWbo/O3yc5fFLxrxxzupuzfZu53EUpOkEZtkkBJ8IkQ=",
+  "Hash": "IekexQo3ocwMjnXN6NoL+3L1fZcwT3y/KhYauEI2oJ0=",
   "Source": "Book Management",
   "BasePath": "_content/Book Management",
   "Mode": "Default",
@@ -117,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\demo.jpg"
+    },
+    {
+      "Identity": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\Images\\Pushti Task.pdf",
+      "SourceId": "Book Management",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\",
+      "BasePath": "_content/Book Management",
+      "RelativePath": "Images/Pushti Task.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\Pushti Task.pdf"
     },
     {
       "Identity": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\Images\\Reyna bw.jpg",
@@ -1154,6 +1171,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\PDF\\CHW.pdf"
+    },
+    {
+      "Identity": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\PDF\\Default.png",
+      "SourceId": "Book Management",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\",
+      "BasePath": "_content/Book Management",
+      "RelativePath": "PDF/Default.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\PDF\\Default.png"
     },
     {
       "Identity": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\PDF\\ExportData (1).pdf",
