@@ -64,15 +64,13 @@ namespace Book_Management.Controllers
                 else
                 {
                     subcategoryMst.CategoryId = subcategory.CategoryId;
-                    subcategoryMst.SubcategoryName =  subcategory.SubcategoryName;
+                    subcategoryMst.SubcategoryName =  subcategory.SubcategoryName.Trim();
                     subcategoryMst.IsActive = true;
                     subcategoryMst.CreatedBy = 1;
                     subcategoryMst.CreatedOn = DateTime.Now;
 
                     _db.SubcategoryMsts.Add(subcategoryMst);
                     _db.SaveChanges();
-
-                    TempData["subcategoryAdded"] = "subcategory added SuccessFully!";
                     return RedirectToAction("GetSubCategory");
                 }
             }
@@ -108,7 +106,7 @@ namespace Book_Management.Controllers
                 else
                 {
                     updateSubCategory.CategoryId = subcategory.CategoryId;
-                    updateSubCategory.SubcategoryName = subcategory.SubcategoryName;
+                    updateSubCategory.SubcategoryName = subcategory.SubcategoryName.Trim();
                     updateSubCategory.UpdatedOn = DateTime.Now;
                     updateSubCategory.UpdateBy = subcategory.CategoryId;
 
@@ -120,33 +118,19 @@ namespace Book_Management.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult DeleteSubCategory(int id)
         {
-            var deleteSubCategory = _db.SubcategoryMsts.FirstOrDefault(x => x.SubcategoryId == id);
-            if (deleteSubCategory != null)
-            {
-                return View(deleteSubCategory);
-            }
-            return RedirectToAction("GetSubCategory");
-        }
-
-        [HttpPost]
-        public IActionResult DeleteSubCategory(SubcategoryMst subcategory)
-        {
-            var deleteSubCategory = _db.SubcategoryMsts.FirstOrDefault(x => x.SubcategoryId == subcategory.SubcategoryId && x.IsDelete == false);
-
+            var deleteSubCategory = _db.SubcategoryMsts.FirstOrDefault(x => x.SubcategoryId == id && x.IsDelete == false);
             if (deleteSubCategory != null)
             {
                 deleteSubCategory.UpdatedOn = DateTime.Now;
-                deleteSubCategory.UpdateBy = subcategory.CategoryId;
+                deleteSubCategory.UpdateBy = deleteSubCategory.CategoryId;
                 deleteSubCategory.IsDelete = true;
 
                 _db.Entry(deleteSubCategory).State = EntityState.Modified;
                 _db.SaveChanges();
-                return RedirectToAction("GetSubCategory");
             }
-            return View();
+            return RedirectToAction("GetSubCategory");
         }
 
         [NonAction]

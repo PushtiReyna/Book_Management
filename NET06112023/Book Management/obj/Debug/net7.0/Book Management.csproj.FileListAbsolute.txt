@@ -504,3 +504,4 @@ D:\project\BookMangement\Book_Management\NET06112023\Book Management\obj\Debug\n
 D:\project\BookMangement\Book_Management\NET06112023\Book Management\obj\Debug\net7.0\Book Management.pdb
 D:\project\BookMangement\Book_Management\NET06112023\Book Management\obj\Debug\net7.0\Book Management.genruntimeconfig.cache
 D:\project\BookMangement\Book_Management\NET06112023\Book Management\obj\Debug\net7.0\ref\Book Management.dll
+D:\project\BookMangement\Book_Management\NET06112023\Book Management\bin\Debug\net7.0\bundleconfig.json

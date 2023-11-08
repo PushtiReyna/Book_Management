@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\Images\\11.jpg"
     },
     {
+      "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\Images\\Default.png",
+      "PackagePath": "staticwebassets\\Images\\Default.png"
+    },
+    {
       "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\Images\\Pushti Task.pdf",
       "PackagePath": "staticwebassets\\Images\\Pushti Task.pdf"
     },
@@ -123,6 +127,22 @@
     {
       "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css"
+    },
+    {
+      "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css.map"
+    },
+    {
+      "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css"
+    },
+    {
+      "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css.map"
     },
     {
       "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",

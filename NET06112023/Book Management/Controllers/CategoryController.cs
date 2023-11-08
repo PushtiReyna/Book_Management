@@ -51,7 +51,7 @@ namespace Book_Management.Controllers
                 }
                 else
                 {
-                    categoryMst.CategoryName = category.CategoryName;
+                    categoryMst.CategoryName = category.CategoryName.Trim();
                     categoryMst.IsActive = true;
                     categoryMst.CreatedBy = 1;
                     categoryMst.CreatedOn = DateTime.Now;
@@ -59,7 +59,6 @@ namespace Book_Management.Controllers
                     _db.CategoryMsts.Add(categoryMst);
                     _db.SaveChanges();
 
-                    TempData["categoryAdded"] = "category added SuccessFully!";
                     return RedirectToAction("GetCategory");
                 }
             }
@@ -91,7 +90,7 @@ namespace Book_Management.Controllers
                 }
                 else
                 {
-                    updateCategory.CategoryName = category.CategoryName;
+                    updateCategory.CategoryName = category.CategoryName.Trim();
                     updateCategory.UpdatedOn = DateTime.Now;
                     updateCategory.UpdateBy = category.CategoryId;
 
@@ -103,33 +102,18 @@ namespace Book_Management.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult DeleteCategory(int id)
-        {
-            var deleteCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == id);
+        { 
+            var deleteCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == id && x.IsDelete == false);
             if (deleteCategory != null)
             {
-                return View(deleteCategory);
+                deleteCategory.UpdatedOn = DateTime.Now;
+                deleteCategory.UpdateBy = deleteCategory.CategoryId;
+                deleteCategory.IsDelete = true;
+                _db.Entry(deleteCategory).State = EntityState.Modified;
+                _db.SaveChanges();
             }
             return RedirectToAction("GetCategory");
-        }
-
-        [HttpPost]
-        public IActionResult DeleteCategory(CategoryMst category)
-        {
-            var deleteCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == category.CategoryId && x.IsDelete == false);
-
-            if (deleteCategory != null)
-            {
-                    deleteCategory.UpdatedOn = DateTime.Now;
-                    deleteCategory.UpdateBy = category.CategoryId;
-                    deleteCategory.IsDelete = true;
-
-                    _db.Entry(deleteCategory).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("GetCategory");
-            }
-            return View();
         }
     }
 

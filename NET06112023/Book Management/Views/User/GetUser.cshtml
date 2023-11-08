@@ -1,0 +1,47 @@
+﻿@model List<Book_Management.Models.UserMst>
+
+@{
+    ViewData["Title"] = "GetUser";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+            <a class=" btn btn-success " style="float:right;" asp-action="AddUser">Add User</a>
+
+            <table class="table table-bordered " id="tbllist">
+                <thead>
+                    <tr class="text-center">
+                        <th>FullName</th>
+                        <th>Email</th>
+                        <th>UserName</th>
+                        <th>Address</th>
+                        <th>ContactNumber</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr class="Text-center">
+                        <td>@item.FullName</td>
+                        <td>@item.Email</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Address</td>
+                        <td>@item.ContactNumber</td>
+                        <td>
+                            <a class=" btn btn-warning m-1" asp-action="UpdateUser" asp-route-id="@item.UserId">Edit</a>
+                            <a class=" btn btn-danger m-1" asp-action="DeleteUser" asp-route-id="@item.UserId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

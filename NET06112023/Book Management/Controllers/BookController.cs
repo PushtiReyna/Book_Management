@@ -58,14 +58,14 @@ namespace Book_Management.Controllers
 
                     addbook.CategoryId = bookMst.CategoryId;
                     addbook.SubcategoryId = bookMst.SubcategoryId;
-                    addbook.BookName = bookMst.BookName;
-                    addbook.AuthorName = bookMst.AuthorName;
+                    addbook.BookName = bookMst.BookName.Trim();
+                    addbook.AuthorName = bookMst.AuthorName.Trim();
                     addbook.BookPages = bookMst.BookPages;
-                    addbook.Publisher = bookMst.Publisher;
+                    addbook.Publisher = bookMst.Publisher.Trim();
                     addbook.PublishDate = bookMst.PublishDate;
-                    addbook.Edition = bookMst.Edition;
-                    addbook.Description = bookMst.Description;
-                    addbook.Price = bookMst.Price;
+                    addbook.Edition = bookMst.Edition.Trim();
+                    addbook.Description = bookMst.Description.Trim();
+                    addbook.Price = bookMst.Price.Trim();
                     addbook.CoverImagePath = imgPath;
                     addbook.PdfPath = filePath;
                     addbook.IsActive = true;
@@ -131,14 +131,14 @@ namespace Book_Management.Controllers
 
                     updateBook.CategoryId = bookMst.CategoryId;
                     updateBook.SubcategoryId = bookMst.SubcategoryId;
-                    updateBook.BookName = bookMst.BookName;
-                    updateBook.AuthorName = bookMst.AuthorName;
+                    updateBook.BookName = bookMst.BookName.Trim();
+                    updateBook.AuthorName = bookMst.AuthorName.Trim();
                     updateBook.BookPages = bookMst.BookPages;
-                    updateBook.Publisher = bookMst.Publisher;
+                    updateBook.Publisher = bookMst.Publisher.Trim();
                     updateBook.PublishDate = bookMst.PublishDate;
-                    updateBook.Edition = bookMst.Edition;
-                    updateBook.Description = bookMst.Description;
-                    updateBook.Price = bookMst.Price;
+                    updateBook.Edition = bookMst.Edition.Trim();
+                    updateBook.Description = bookMst.Description.Trim();
+                    updateBook.Price = bookMst.Price.Trim();
                     updateBook.UpdatedOn = DateTime.Now;
                     updateBook.UpdateBy = bookMst.BookId;
 

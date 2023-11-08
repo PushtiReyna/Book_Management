@@ -1,5 +1,20 @@
 ﻿@model List<Book_Management.Models.BookMst>
 
+@{
+    ViewData["Title"] = "GetBook";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
+<style>
+    .table > :not(caption) > * > * {
+         border-bottom-width: 0px; 
+    }
+    .table-row
+    {
+       display:grid;
+       float:left;
+    }
+</style>
 
 <div class="mb-5">
     <hr />
@@ -8,24 +23,20 @@
 
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-12">
 
         <table class="table table-responsive" id="tbllist" style="border:none">
             <thead>
-                <tr class="text-center" width="300px" style="border:none">
+                <tr class="text-center" style="border:none">
                     <th></th>
-                    @*</tr>
-                    <tr style="border:none">*@
                     <th></th>
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
 
-                <tr>
-                    <td style="border:none"> <img src="@("~/Images/"+item.CoverImagePath)" asp-append-version="true" height="100px" width="300px" />    </td>
-                    @*</tr>
-                <tr>*@
+                <tr class="table-row">
+                    <td style="border:none"> <img src="@("~/Images/"+item.CoverImagePath)" asp-append-version="true" height="100px" width="300px"/></td>
                     <td>
                         <a class=" btn btn-warning m-1" asp-action="UpdateBook" asp-route-id="@item.BookId">Edit</a>
                         <a class="btn btn-warning m-1" asp-action="DownloadBook" asp-route-id="@item.BookId">Download</a>
@@ -41,13 +52,13 @@
     @{
 
         <script type="text/javascript">
-        debugger;
-            
-                function (alert) {
-                    window.alert("Hello world!");
-                }
-                       
-                       
+            debugger;
+
+            function (alert) {
+                window.alert("Hello world!");
+            }
+
+
         </script>
     }
 }

@@ -1,5 +1,9 @@
 ﻿@model Book_Management.Models.BookMst
 
+@{
+    ViewData["Title"] = "UpdateBook";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
 
 <div class="form-row">
     <hr />
@@ -8,7 +12,7 @@
 
     <form method="post" asp-action="UpdateBook" enctype="multipart/form-data">
 
-              <input type="hidden" class=" form-control" asp-for=BookId readonly />
+        <input type="hidden" class=" form-control" asp-for=BookId readonly />
 
         <div class="form-group col-md-6">
             <label>Category Name</label>
@@ -76,13 +80,13 @@
 
         <div class="form-group col-md-6 mb-3">
             <label class=" form-label"> CoverImagePath</label>
-            <input type="file" class=" form-control" asp-for=CoverImagePath />
+            <input type="file" class=" form-control" asp-for=CoverImagePath accept="image/x-png,image/jpg,image/jpeg" />
             <span asp-validation-for="CoverImagePath" class="text-danger"></span>
         </div>
 
         <div class="form-group col-md-6 mb-3">
             <label> PdfPath</label>
-            <input type="file" class="form-control" asp-for="PdfPath" />
+            <input type="file" class="form-control" asp-for="PdfPath" accept="pdf" />
             <span asp-validation-for="PdfPath" class="text-danger"></span>
         </div>
 
@@ -131,3 +135,5 @@
         });
     </script>
 }
+
+

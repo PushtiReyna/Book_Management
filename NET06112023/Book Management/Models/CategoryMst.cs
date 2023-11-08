@@ -10,6 +10,7 @@ public partial class CategoryMst
     public int CategoryId { get; set; }
 
     [Required(ErrorMessage = "Please Enter CategoryName Name"), MaxLength(50)]
+    [RegularExpression(@"^[A-Za-z\s]*$", ErrorMessage = "Please enter only letters for categoryName.")]
     public string CategoryName { get; set; } = null!;
 
     public bool IsActive { get; set; }

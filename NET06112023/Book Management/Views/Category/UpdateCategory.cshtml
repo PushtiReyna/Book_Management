@@ -1,18 +1,14 @@
 ﻿@model Book_Management.Models.CategoryMst
 
+@{
+    ViewData["Title"] = "UpdateCategory";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
 <div class="form-row">
 
     <h4>Update Category</h4>
-    <div class="text-success">
 
-        <div class="mb-3">
-            @if (TempData["categoryUpdated"] != null)
-            {
-                <p class="text-success" id='message'>@TempData["categoryUpdated"]</p>
-            }
-
-        </div>
-    </div>
     <form method="post" asp-action="UpdateCategory" name="updateUser">
 
         <div class="form-group col-md-6">
@@ -47,3 +43,4 @@
         });
     </script>
 }
+

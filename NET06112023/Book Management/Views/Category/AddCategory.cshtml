@@ -1,25 +1,21 @@
 ﻿@model Book_Management.Models.CategoryMst
 
 
+@{
+    ViewData["Title"] = "AddCategory";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
+
 <div class="form-row">
 
     <h4>Create Category</h4>
 
-    <div class="text-success">
-
-        <div class="mb-3">
-            @if (TempData["categoryAdded"] != null)
-            {
-                <p class="text-success" id='message'>@TempData["categoryAdded"]</p>
-            }
-
-        </div>
-    </div>
     <form method="post" asp-action="AddCategory" name="AddCategory">
         <div class="form-group col-md-6">
 
             <label>Category Name</label>
-            <input type="text" class="form-control" asp-for="CategoryName" placeholder="Enter CategoryName" />
+            <input type="text" class="form-control" asp-for="CategoryName" />
             <span asp-validation-for="CategoryName" class="text-danger"></span>
             @if (ViewBag.Message != null)
             {
@@ -46,3 +42,4 @@
         });
     </script>
 }
+

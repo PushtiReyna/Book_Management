@@ -1,21 +1,15 @@
 ﻿@model Book_Management.Models.SubcategoryMst
 
 
+@{
+    ViewData["Title"] = "UpdateSubCategory";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
+
 <div class="form-row">
 
     <h4>Update SubCategory</h4>
-
-    <div class="text-success">
-
-        <div class="mb-3">
-            @if (TempData["subcategoryAdded"] != null)
-            {
-                <p class="text-success" id='message'>@TempData["subcategoryAdded"]</p>
-            }
-
-        </div>
-    </div>
-
 
     <form method="post" asp-action="UpdateSubCategory">
 

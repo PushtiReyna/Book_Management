@@ -7,9 +7,9 @@
     <title>@ViewData["Title"] - Book_Management</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-   <link rel="stylesheet" href="~/Book_Management.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Book_Management.styles.css" asp-append-version="true" />
 
-@*    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />*@
+    @*    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />*@
 
 </head>
 <body>
@@ -23,38 +23,57 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                     
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Registration">User</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="GetCategory">Category</a>
                         </li>
-                        <li class="nav-item" style="float:right;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="SubCategory" asp-action="GetSubCategory">SubCategory</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="GetBook">Book</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="GetUser">User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LogOut">LogOut</a>
+                        </li>
+                        <li class="nav-item">
+                            <h6 class="nav-link text-dark">@ViewBag.MySession</h6>
+                        </li>
+                        
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
+@*
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Book_Management - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
+
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     @*for jquery dataTables*@
-  @*  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>*@*
+    @*  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>*@*
 
- @*   <script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    @*   <script src="~/lib/jquery/dist/jquery.min.js"></script>*@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
