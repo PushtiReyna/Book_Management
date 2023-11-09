@@ -1,4 +1,6 @@
 ﻿using Book_Management.Models;
+using Book_Management.ViewModel.Login;
+using Book_Management.ViewModel.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
 
@@ -19,39 +21,32 @@ namespace Book_Management.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Registration(UserMst userMst)
+        public IActionResult Registration(RegistrationViewModel registrationViewModel)
         {
-            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
-                UserMst user = new UserMst();
+                UserMst userMst = new UserMst();
 
-                var userList = _db.UserMsts.Where(x => x.IsDelete == false).ToList();
-                if (userList.Where(u => u.Email == userMst.Email).ToList().Count > 0)
+                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == registrationViewModel.Email).ToList();
+                if (userList.Count <= 0)
                 {
-                    ViewBag.EmailMessage = "Email is already Exists.";
-                    return View();
-                }
-                else if (userList.Where(u => u.UserName == userMst.UserName).ToList().Count > 0)
-                {
-                    ViewBag.UserNameMessage = "UserName is already Exists.";
-                    return View();
+                    userMst.FullName = registrationViewModel.FullName.Trim();
+                    userMst.Email = registrationViewModel.Email.Trim();
+                    userMst.UserName = registrationViewModel.UserName.Trim();
+                    userMst.Address = registrationViewModel.Address.Trim();
+                    userMst.ContactNumber = registrationViewModel.ContactNumber.Trim();
+                    userMst.Password = registrationViewModel.Password.Trim();
+                    userMst.IsActive = true;
+                    userMst.CreatedBy = 1;
+                    userMst.CreatedOn = DateTime.Now;
+
+                    _db.UserMsts.Add(userMst);
+                    _db.SaveChanges();
+                    return RedirectToAction("GetUser");
                 }
                 else
                 {
-                    user.FullName = userMst.FullName.Trim();
-                    user.Email = userMst.Email.Trim();
-                    user.UserName = userMst.UserName.Trim();
-                    user.Address = userMst.Address.Trim();
-                    user.ContactNumber = userMst.ContactNumber.Trim();
-                    user.Password = userMst.Password.Trim();
-                    user.IsActive = true;
-                    user.CreatedBy = 1;
-                    user.CreatedOn = DateTime.Now;
-
-                    _db.UserMsts.Add(user);
-                    _db.SaveChanges();
-                    return RedirectToAction("Login");
+                    ViewBag.Message = "Email is already Exists.";
                 }
             }
             return View();
@@ -67,13 +62,11 @@ namespace Book_Management.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(UserMst userMst)
+        public IActionResult Login(LoginViewModel loginViewModel)
         {
-            var user = _db.UserMsts.Where(x => x.UserName == userMst.UserName && x.Password == userMst.Password && x.IsDelete == false).FirstOrDefault();
-
+            var user = _db.UserMsts.Where(x => x.UserName == loginViewModel.UserName && x.Password == loginViewModel.Password && x.IsDelete == false).FirstOrDefault();
             if (user != null)
             {
-               
                 HttpContext.Session.SetString("UserSession", user.UserName);
                 return RedirectToAction("DashBoard");
             }
@@ -86,7 +79,6 @@ namespace Book_Management.Controllers
 
         public IActionResult DashBoard()
         {
-            
             if (HttpContext.Session.GetString("UserSession") != null)
             {
                 ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
@@ -96,12 +88,10 @@ namespace Book_Management.Controllers
             {
                 return RedirectToAction("Login");
             }
-           
         }
 
         public IActionResult LogOut()
         {
-           
             if (HttpContext.Session.GetString("UserSession") != null)
             {
                 HttpContext.Session.Remove("UserSession");

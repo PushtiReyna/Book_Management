@@ -67,14 +67,14 @@ public partial class BookMst
 
     public DateTime? UpdatedOn { get; set; }
 
-    [NotMapped]
-    public IFormFile Image { get; set; }
+    //[NotMapped]
+    //public IFormFile Image { get; set; }
 
-    [NotMapped]
-    public IFormFile File { get; set; }
+    //[NotMapped]
+    //public IFormFile File { get; set; }
 
-    [NotMapped]
-    public string CategoryName { get; set; }
-    [NotMapped]
-    public string SubcategoryName { get; set; } = null!;
+    //[NotMapped]
+    //public string CategoryName { get; set; }
+    //[NotMapped]
+    //public string SubcategoryName { get; set; } = null!;
 }

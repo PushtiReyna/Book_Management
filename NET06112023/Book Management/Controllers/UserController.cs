@@ -1,4 +1,5 @@
 ﻿using Book_Management.Models;
+using Book_Management.ViewModel.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,6 @@ namespace Book_Management.Controllers
         public IActionResult GetUser()
         {
             var userList = _db.UserMsts.Where(u => u.IsDelete == false).ToList();
-
             return View(userList);
         }
 
@@ -27,38 +27,32 @@ namespace Book_Management.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddUser(UserMst userMst)
+        public IActionResult AddUser(AddUserViewModel addUserViewModel)
         {
             if (ModelState.IsValid)
             {
-                UserMst user = new UserMst();
+                UserMst userMst = new UserMst();
 
-                var userList = _db.UserMsts.Where(x => x.IsDelete == false).ToList();
-                if (userList.Where(u => u.Email == userMst.Email).ToList().Count > 0)
+                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == addUserViewModel.Email).ToList();
+                if (userList.Count <= 0)
                 {
-                    ViewBag.Message = "Email is already Exists.";
-                    return View();
-                }
-                else if (userList.Where(u => u.UserName == userMst.UserName).ToList().Count > 0)
-                {
-                    ViewBag.Message = "UserName is already Exists.";
-                    return View();
+                    userMst.FullName = addUserViewModel.FullName.Trim();
+                    userMst.Email = addUserViewModel.Email.Trim();
+                    userMst.UserName = addUserViewModel.UserName.Trim();
+                    userMst.Address = addUserViewModel.Address.Trim();
+                    userMst.ContactNumber = addUserViewModel.ContactNumber.Trim();
+                    userMst.Password = addUserViewModel.Password.Trim();
+                    userMst.IsActive = true;
+                    userMst.CreatedBy = 1;
+                    userMst.CreatedOn = DateTime.Now;
+
+                    _db.UserMsts.Add(userMst);
+                    _db.SaveChanges();
+                    return RedirectToAction("GetUser");
                 }
                 else
                 {
-                    user.FullName = userMst.FullName.Trim();
-                    user.Email = userMst.Email.Trim();
-                    user.UserName = userMst.UserName.Trim();
-                    user.Address = userMst.Address.Trim();
-                    user.ContactNumber = userMst.ContactNumber.Trim();
-                    user.Password = userMst.Password.Trim();
-                    user.IsActive = true;
-                    user.CreatedBy = 1;
-                    user.CreatedOn = DateTime.Now;
-
-                    _db.UserMsts.Add(user);
-                    _db.SaveChanges();
-                    return RedirectToAction("GetUser");
+                    ViewBag.Message = "Email is already Exists.";
                 }
             }
             return View();
@@ -67,45 +61,48 @@ namespace Book_Management.Controllers
         [HttpGet]
         public IActionResult UpdateUser(int id)
         {
-           var updateUser = _db.UserMsts.FirstOrDefault(x => x.UserId == id);
+            var updateUser = _db.UserMsts.FirstOrDefault(x => x.UserId == id);
             if (updateUser != null)
             {
-                return View(updateUser);
+                var updateUserView = new UpdateUserViewModel()
+                {
+                    FullName = updateUser.FullName,
+                    Email = updateUser.Email,
+                    UserName = updateUser.UserName,
+                    Address = updateUser.Address,
+                    ContactNumber = updateUser.ContactNumber,
+                };
+
+                return View(updateUserView);
             }
             return RedirectToAction("GetUser");
         }
 
         [HttpPost]
-        public IActionResult UpdateUser(UserMst userMst)
+        public IActionResult UpdateUser(UpdateUserViewModel updateUserViewModel)
         {
-            var updateUser = _db.UserMsts.FirstOrDefault(x => x.UserId == userMst.UserId);
+            var updateUser = _db.UserMsts.FirstOrDefault(x => x.UserId == updateUserViewModel.UserId);
             if (updateUser != null)
             {
-                var userList = _db.UserMsts.Where(x => x.IsDelete == false).ToList();
-                if (userList.Where(u => u.Email == userMst.Email).ToList().Count > 0)
+                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == updateUserViewModel.Email && x.UserId != updateUserViewModel.UserId).ToList();
+                if (userList.Count <= 0)
                 {
-                    ViewBag.Message = "Email is already Exists.";
-                    return View();
-                }
-                else if (userList.Where(u => u.UserName == userMst.UserName).ToList().Count > 0)
-                {
-                    ViewBag.Message = "UserName is already Exists.";
-                    return View();
-                }
-                else
-                {
-                    updateUser.FullName = userMst.FullName.Trim();
-                    updateUser.Email = userMst.Email.Trim();
-                    updateUser.UserName = userMst.UserName.Trim();
-                    updateUser.Address = userMst.Address.Trim();
-                    updateUser.ContactNumber = userMst.ContactNumber.Trim();
-                    updateUser.Password = userMst.Password.Trim();
+                    updateUser.FullName = updateUserViewModel.FullName.Trim();
+                    updateUser.Email = updateUserViewModel.Email.Trim();
+                    updateUser.UserName = updateUserViewModel.UserName.Trim();
+                    updateUser.Address = updateUserViewModel.Address.Trim();
+                    updateUser.ContactNumber = updateUserViewModel.ContactNumber.Trim();
                     updateUser.UpdatedOn = DateTime.Now;
-                    updateUser.UpdateBy = userMst.UserId;
+                    updateUser.UpdateBy = 1;
 
                     _db.Entry(updateUser).State = EntityState.Modified;
                     _db.SaveChanges();
+
                     return RedirectToAction("GetUser");
+                }
+                else
+                {
+                    ViewBag.Message = "Email is already Exists.";
                 }
             }
             return View();
@@ -113,18 +110,18 @@ namespace Book_Management.Controllers
 
         public IActionResult DeleteUser(int id)
         {
-            var deleteUser = _db.UserMsts.FirstOrDefault(x => x.UserId == id && x.IsDelete == false);
+            var deleteUser = _db.UserMsts.FirstOrDefault(x => x.UserId == id);
             if (deleteUser != null)
             {
                 deleteUser.UpdatedOn = DateTime.Now;
-                deleteUser.UpdateBy = deleteUser.UserId;
+                deleteUser.UpdateBy = 1;
                 deleteUser.IsDelete = true;
 
                 _db.Entry(deleteUser).State = EntityState.Modified;
                 _db.SaveChanges();
 
             }
-            return RedirectToAction("GetBook");
+            return RedirectToAction("GetUser");
         }
     }
 }

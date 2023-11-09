@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PQmhebtCrXgFVyQjVO/YGJctoS9UguDlT046y4OjeCM=",
+  "Hash": "2JQqFjiq0wKCe6kSVxZNRAiRur+b5CY3quCXh61W6DY=",
   "Source": "Book Management",
   "BasePath": "_content/Book Management",
   "Mode": "Default",
@@ -1307,6 +1307,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\PDF\\ExportData.pdf"
+    },
+    {
+      "Identity": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\PDF\\Reyna bw.jpg",
+      "SourceId": "Book Management",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\",
+      "BasePath": "_content/Book Management",
+      "RelativePath": "PDF/Reyna bw.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\PDF\\Reyna bw.jpg"
     },
     {
       "Identity": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\PDF\\Summary Report.pdf",

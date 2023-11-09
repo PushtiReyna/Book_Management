@@ -1,4 +1,6 @@
 ﻿using Book_Management.Models;
+using Book_Management.ViewModel.Book;
+using Book_Management.ViewModel.Category;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +20,6 @@ namespace Book_Management.Controllers
         public IActionResult GetCategory()
         {
             var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
-
             return View(categoryList);
         }
         //[HttpGet]
@@ -35,23 +36,15 @@ namespace Book_Management.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddCategory(CategoryMst category)
+        public IActionResult AddCategory(AddCategoryViewModel addCategoryViewModel)
         {
-
-            ModelState.Remove("CategoryId");
-
             if (ModelState.IsValid)
             {
                 CategoryMst categoryMst = new CategoryMst();
-                var categoryList = _db.CategoryMsts.Where(x => x.IsDelete == false).ToList();
-                if (categoryList.Where(u => u.CategoryName == category.CategoryName).ToList().Count > 0)
+                var categoryList = _db.CategoryMsts.Where(x => x.IsDelete == false && x.CategoryName == addCategoryViewModel.CategoryName).ToList();
+                if (categoryList.Count <= 0)
                 {
-                    ViewBag.Message = "categoryname is already Exists.";
-                    return View();
-                }
-                else
-                {
-                    categoryMst.CategoryName = category.CategoryName.Trim();
+                    categoryMst.CategoryName = addCategoryViewModel.CategoryName.Trim();
                     categoryMst.IsActive = true;
                     categoryMst.CreatedBy = 1;
                     categoryMst.CreatedOn = DateTime.Now;
@@ -60,6 +53,10 @@ namespace Book_Management.Controllers
                     _db.SaveChanges();
 
                     return RedirectToAction("GetCategory");
+                }
+                else
+                {
+                    ViewBag.Message = "categoryname is already Exists.";
                 }
             }
             return View();
@@ -71,32 +68,35 @@ namespace Book_Management.Controllers
             var updateCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == id);
             if (updateCategory != null)
             {
-                return View(updateCategory);
+                var updateCategoryView = new UpdateCategoryViewModel()
+                {
+                    CategoryName = updateCategory.CategoryName,
+                };
+                return View(updateCategoryView);
             }
             return RedirectToAction("GetCategory");
 
         }
         [HttpPost]
-        public IActionResult UpdateCategory(CategoryMst category)
+        public IActionResult UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
         {
-            var updateCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == category.CategoryId);
+            var updateCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == updateCategoryViewModel.CategoryId);
             if (updateCategory != null)
             {
-                var categoryList = _db.CategoryMsts.Where(x => x.IsDelete == false).ToList();
-                if (categoryList.Where(u => u.CategoryName == category.CategoryName && u.CategoryId != category.CategoryId).ToList().Count > 0)
+                var categoryList = _db.CategoryMsts.Where(x => x.IsDelete == false && x.CategoryName == updateCategoryViewModel.CategoryName && x.CategoryId != updateCategoryViewModel.CategoryId).ToList();
+                if (categoryList.Count <= 0)
                 {
-                    ViewBag.Message = "categoryname is already Exists.";
-                    return View();
-                }
-                else
-                {
-                    updateCategory.CategoryName = category.CategoryName.Trim();
+                    updateCategory.CategoryName = updateCategoryViewModel.CategoryName.Trim();
                     updateCategory.UpdatedOn = DateTime.Now;
-                    updateCategory.UpdateBy = category.CategoryId;
+                    updateCategory.UpdateBy = 1;
 
                     _db.Entry(updateCategory).State = EntityState.Modified;
                     _db.SaveChanges();
                     return RedirectToAction("GetCategory");
+                }
+                else
+                {
+                    ViewBag.Message = "categoryname is already Exists.";
                 }
             }
             return View();
@@ -104,12 +104,13 @@ namespace Book_Management.Controllers
 
         public IActionResult DeleteCategory(int id)
         { 
-            var deleteCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == id && x.IsDelete == false);
+            var deleteCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == id);
             if (deleteCategory != null)
             {
                 deleteCategory.UpdatedOn = DateTime.Now;
-                deleteCategory.UpdateBy = deleteCategory.CategoryId;
+                deleteCategory.UpdateBy = 1;
                 deleteCategory.IsDelete = true;
+                _db.SubcategoryMsts.RemoveRange();
                 _db.Entry(deleteCategory).State = EntityState.Modified;
                 _db.SaveChanges();
             }

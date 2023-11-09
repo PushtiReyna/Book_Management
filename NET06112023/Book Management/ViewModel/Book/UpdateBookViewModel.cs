@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Book_Management.ViewModel
+namespace Book_Management.ViewModel.Book
 {
-    public class BookViewModel
+    public class UpdateBookViewModel
     {
         public int BookId { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Book Name")]
+        [Required(ErrorMessage = "Please enter book name")]
+        [RegularExpression(@"^[A-Za-z\s]*$", ErrorMessage = "invalid Book Name.")]
         public string BookName { get; set; } = null!;
 
         [Required, Range(1, int.MaxValue, ErrorMessage = "Please Select Category.")]
@@ -17,25 +17,34 @@ namespace Book_Management.ViewModel
         public int SubcategoryId { get; set; }
 
         [Required(ErrorMessage = "Please name of Author")]
+        [RegularExpression(@"^[A-Za-z\s]*$", ErrorMessage = "invalid Author Name.")]
         public string AuthorName { get; set; } = null!;
 
-        [Required(ErrorMessage = "Please Enter First Name")]
+        [Required(ErrorMessage = "Please Enter book pages")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public int BookPages { get; set; }
 
         [Required(ErrorMessage = "Please Enter name of Publisher")]
+        [RegularExpression(@"^[A-Za-z\s]*$", ErrorMessage = "invalid Publisher's Name.")]
         public string Publisher { get; set; } = null!;
+
 
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Please enter PublishDate")]
         public DateTime PublishDate { get; set; }
 
+
         [Required(ErrorMessage = "Please enter edition of book")]
         public string Edition { get; set; } = null!;
 
+
         [Required(ErrorMessage = "Please enter description")]
+        [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "invalid description")]
         public string Description { get; set; } = null!;
 
         [Required(ErrorMessage = "Please enter book's price")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
+        [DataType(DataType.Currency)]
         public string Price { get; set; } = null!;
 
         [Required(ErrorMessage = "Please select cover Image")]
@@ -44,17 +53,8 @@ namespace Book_Management.ViewModel
         [Required(ErrorMessage = "Please select pdf of book")]
         public IFormFile File { get; set; }
 
-        public bool IsActive { get; set; }
+        public string CoverImagePath { get; set; } = null!;
 
-        public bool IsDelete { get; set; }
-
-        public int CreatedBy { get; set; }
-
-        public DateTime? CreatedOn { get; set; }
-
-        public int UpdateBy { get; set; }
-
-        public DateTime? UpdatedOn { get; set; }
-        
+        public string PdfPath { get; set; } = null!;
     }
 }

@@ -45,6 +45,10 @@
       "PackagePath": "staticwebassets\\PDF\\ExportData.pdf"
     },
     {
+      "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\PDF\\Reyna bw.jpg",
+      "PackagePath": "staticwebassets\\PDF\\Reyna bw.jpg"
+    },
+    {
       "Id": "D:\\project\\BookMangement\\Book_Management\\NET06112023\\Book Management\\wwwroot\\PDF\\Summary Report.pdf",
       "PackagePath": "staticwebassets\\PDF\\Summary Report.pdf"
     },

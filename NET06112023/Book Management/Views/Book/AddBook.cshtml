@@ -1,11 +1,9 @@
-﻿@model Book_Management.ViewModel.BookViewModel
+﻿@model Book_Management.ViewModel.Book.AddBookViewModel
 
 @{
     ViewData["Title"] = "AddBook";
     Layout = "~/Views/Shared/_DashBoard.cshtml";
 }
-
-
 
 
 <div class="form-row">
@@ -32,7 +30,7 @@
 
         <div class="form-group col-md-6 mb-3">
             <label> Book name</label>
-            <input type="text" class="form-control" asp-for="BookName" placeholder="Enter Book Name" />
+            <input type="text" class="form-control" asp-for="BookName" placeholder="Enter Book Name" required/>
             <span asp-validation-for="BookName" class="text-danger"></span>
             @if (ViewBag.Message != null)
             {

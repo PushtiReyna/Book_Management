@@ -8,7 +8,6 @@ namespace Book_Management.Models;
 public partial class SubcategoryMst
 {
 
-    [Required, Range(1, int.MaxValue, ErrorMessage = "Please Select Subcategory.")]
     public int SubcategoryId { get; set; }
 
     [Required(ErrorMessage = "Please Enter CategoryName Name")]
@@ -30,6 +29,4 @@ public partial class SubcategoryMst
 
     public DateTime? UpdatedOn { get; set; }
 
-    [NotMapped]
-    public string CategoryName { get; set; }
 }

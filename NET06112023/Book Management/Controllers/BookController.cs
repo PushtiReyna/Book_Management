@@ -1,5 +1,6 @@
 ﻿using Book_Management.Models;
 using Book_Management.ViewModel;
+using Book_Management.ViewModel.Book;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,60 +22,59 @@ namespace Book_Management.Controllers
         public IActionResult GetBook()
         {
             var bookList = _db.BookMsts.Where(u => u.IsDelete == false).ToList();
-
             return View(bookList);
         }
 
         [HttpGet]
         public IActionResult AddBook()
         {
-            CategoryList();
+            var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
+            ViewBag.categoryList = new SelectList(categoryList, "CategoryId", "CategoryName");
+
             return View();
         }
         [HttpPost]
-        public IActionResult AddBook(BookViewModel bookMst)
+        public IActionResult AddBook(AddBookViewModel addBookViewModel)
         {
-            CategoryList();
+            var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
+            ViewBag.categoryList = new SelectList(categoryList, "CategoryId", "CategoryName");
 
-            ModelState.Remove("BookId");
-            ModelState.Remove("CategoryId");
-            ModelState.Remove("SubcategoryId");
 
             if (ModelState.IsValid)
             {
-                BookMst addbook = new BookMst();
+                BookMst bookMst = new BookMst();
 
 
-                var bookList = _db.BookMsts.Where(x => x.IsDelete == false).ToList();
-                if (bookList.Where(u => u.BookName == bookMst.BookName).ToList().Count > 0)
+                var bookList = _db.BookMsts.Where(x => x.IsDelete == false && x.BookName == addBookViewModel.BookName).ToList();
+                if (bookList.Count <= 0)
                 {
-                    ViewBag.Message = "book name is already Exists.";
-                    return View();
+                    string imgPath = UploadImage(addBookViewModel.Image);
+                    string filePath = UploadFile(addBookViewModel.File);
+
+                    bookMst.CategoryId = addBookViewModel.CategoryId;
+                    bookMst.SubcategoryId = addBookViewModel.SubcategoryId;
+                    bookMst.BookName = addBookViewModel.BookName.Trim();
+                    bookMst.AuthorName = addBookViewModel.AuthorName.Trim();
+                    bookMst.BookPages = addBookViewModel.BookPages;
+                    bookMst.Publisher = addBookViewModel.Publisher.Trim();
+                    bookMst.PublishDate = addBookViewModel.PublishDate;
+                    bookMst.Edition = addBookViewModel.Edition.Trim();
+                    bookMst.Description = addBookViewModel.Description.Trim();
+                    bookMst.Price = addBookViewModel.Price.Trim();
+                    bookMst.CoverImagePath = imgPath;
+                    bookMst.PdfPath = filePath;
+                    bookMst.IsActive = true;
+                    bookMst.CreatedBy = 1;
+                    bookMst.CreatedOn = DateTime.Now;
+
+                    _db.BookMsts.Add(bookMst);
+                    _db.SaveChanges();
+                    return RedirectToAction("GetBook");
+
                 }
                 else
                 {
-                    string imgPath = UploadImage(bookMst.Image);
-                    string filePath = UploadFile(bookMst.File);
-
-                    addbook.CategoryId = bookMst.CategoryId;
-                    addbook.SubcategoryId = bookMst.SubcategoryId;
-                    addbook.BookName = bookMst.BookName.Trim();
-                    addbook.AuthorName = bookMst.AuthorName.Trim();
-                    addbook.BookPages = bookMst.BookPages;
-                    addbook.Publisher = bookMst.Publisher.Trim();
-                    addbook.PublishDate = bookMst.PublishDate;
-                    addbook.Edition = bookMst.Edition.Trim();
-                    addbook.Description = bookMst.Description.Trim();
-                    addbook.Price = bookMst.Price.Trim();
-                    addbook.CoverImagePath = imgPath;
-                    addbook.PdfPath = filePath;
-                    addbook.IsActive = true;
-                    addbook.CreatedBy = 1;
-                    addbook.CreatedOn = DateTime.Now;
-
-                    _db.BookMsts.Add(addbook);
-                    _db.SaveChanges();
-                    return RedirectToAction("GetBook");
+                    ViewBag.Message = "book name is already Exists.";
                 }
             }
             return View();
@@ -84,27 +84,45 @@ namespace Book_Management.Controllers
         [HttpGet]
         public IActionResult UpdateBook(int id)
         {
-            CategoryList();
-
+            
             var updateBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
             if (updateBook != null)
             {
-                // var subcategorylist = _db.SubcategoryMsts.FirstOrDefault(x => x.IsDelete == false);
+                var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
+                ViewBag.categoryList = new SelectList(categoryList, "CategoryId", "CategoryName");
+
                 List<SubcategoryMst> listsubcategory = new List<SubcategoryMst>();
 
                 listsubcategory = (from subcategory in _db.SubcategoryMsts where subcategory.CategoryId == updateBook.CategoryId select subcategory).ToList();
-                ViewBag.stateName = new SelectList(listsubcategory, "SubcategoryId", "SubcategoryName");
+                ViewBag.subcategoryName = new SelectList(listsubcategory, "SubcategoryId", "SubcategoryName");
 
-                return View(updateBook);
+                var updateBookView = new UpdateBookViewModel()
+                {
+                    CategoryId = updateBook.CategoryId,
+                    SubcategoryId = updateBook.SubcategoryId,
+                    BookName = updateBook.BookName,
+                    AuthorName = updateBook.AuthorName,
+                    BookPages = updateBook.BookPages,
+                    Publisher = updateBook.Publisher,
+                    PublishDate = updateBook.PublishDate,
+                    Edition = updateBook.Edition,
+                    Description = updateBook.Description,
+                    Price = updateBook.Price
+                };
+                return View(updateBookView);
+
             }
             return RedirectToAction("GetBook");
         }
 
         [HttpPost]
-        public IActionResult UpdateBook(BookMst bookMst)
+        public IActionResult UpdateBook(UpdateBookViewModel updateBookViewModel)
         {
-            CategoryList();
-            var updateBook = _db.BookMsts.FirstOrDefault(x => x.BookId == bookMst.BookId);
+            var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
+            ViewBag.categoryList = new SelectList(categoryList, "CategoryId", "CategoryName");
+
+            var updateBook = _db.BookMsts.FirstOrDefault(x => x.BookId == updateBookViewModel.BookId);
+
             if (updateBook != null)
             {
                 List<SubcategoryMst> listsubcategory = new List<SubcategoryMst>();
@@ -112,39 +130,40 @@ namespace Book_Management.Controllers
                 listsubcategory = (from subcategory in _db.SubcategoryMsts where subcategory.CategoryId == updateBook.CategoryId select subcategory).ToList();
                 ViewBag.stateName = new SelectList(listsubcategory, "SubcategoryId", "SubcategoryName");
 
-                var bookList = _db.BookMsts.Where(x => x.IsDelete == false).ToList();
-                if (bookList.Where(u => u.BookName == bookMst.BookName && u.BookId != bookMst.BookId).ToList().Count > 0)
+
+                var bookList = _db.BookMsts.Where(x => x.BookName == updateBookViewModel.BookName && x.BookId != updateBookViewModel.BookId).ToList();
+                if (bookList.Count <= 0)
                 {
-                    ViewBag.Message = "book name is already Exists.";
-                    return View();
-                }
-                else
-                {
-                    if (bookMst.Image != null || bookMst.File != null)
+                    if (updateBookViewModel.Image != null || updateBookViewModel.File != null)
                     {
-                        string imgPath = UploadImage(bookMst.Image);
-                        string filePath = UploadFile(bookMst.File);
+                        string imgPath = UploadImage(updateBookViewModel.Image);
+                        string filePath = UploadFile(updateBookViewModel.File);
 
                         updateBook.CoverImagePath = imgPath;
                         updateBook.PdfPath = filePath;
                     }
 
-                    updateBook.CategoryId = bookMst.CategoryId;
-                    updateBook.SubcategoryId = bookMst.SubcategoryId;
-                    updateBook.BookName = bookMst.BookName.Trim();
-                    updateBook.AuthorName = bookMst.AuthorName.Trim();
-                    updateBook.BookPages = bookMst.BookPages;
-                    updateBook.Publisher = bookMst.Publisher.Trim();
-                    updateBook.PublishDate = bookMst.PublishDate;
-                    updateBook.Edition = bookMst.Edition.Trim();
-                    updateBook.Description = bookMst.Description.Trim();
-                    updateBook.Price = bookMst.Price.Trim();
+                    updateBook.CategoryId = updateBookViewModel.CategoryId;
+                    updateBook.SubcategoryId = updateBookViewModel.SubcategoryId;
+                    updateBook.BookName = updateBookViewModel.BookName.Trim();
+                    updateBook.AuthorName = updateBookViewModel.AuthorName.Trim();
+                    updateBook.BookPages = updateBookViewModel.BookPages;
+                    updateBook.Publisher = updateBookViewModel.Publisher.Trim();
+                    updateBook.PublishDate = updateBookViewModel.PublishDate;
+                    updateBook.Edition = updateBookViewModel.Edition.Trim();
+                    updateBook.Description = updateBookViewModel.Description.Trim();
+                    updateBook.Price = updateBookViewModel.Price.Trim();
                     updateBook.UpdatedOn = DateTime.Now;
-                    updateBook.UpdateBy = bookMst.BookId;
+                    updateBook.UpdateBy = 1;
 
                     _db.Entry(updateBook).State = EntityState.Modified;
                     _db.SaveChanges();
                     return RedirectToAction("GetCategory");
+
+                }
+                else
+                {
+                    ViewBag.Message = "book name is already Exists.";
                 }
             }
             return View();
@@ -152,27 +171,26 @@ namespace Book_Management.Controllers
 
         public IActionResult DeleteBook(int id)
         {
-            var deleteBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id && x.IsDelete == false);
+            var deleteBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
             if (deleteBook != null)
             {
                 deleteBook.UpdatedOn = DateTime.Now;
-                deleteBook.UpdateBy = deleteBook.BookId;
+                deleteBook.UpdateBy = 1;
                 deleteBook.IsDelete = true;
 
                 _db.Entry(deleteBook).State = EntityState.Modified;
                 _db.SaveChanges();
-                
             }
             return RedirectToAction("GetBook");
         }
 
         public IActionResult DownloadBook(int id)
         {
-            var deleteBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id && x.IsDelete == false);
-            if (deleteBook != null)
+            var downoadBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
+            if (downoadBook != null)
             {
-                string filePath = deleteBook.PdfPath;
-                string fileName = deleteBook.BookName;
+                string filePath = downoadBook.PdfPath;
+                string fileName = downoadBook.BookName;
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
@@ -193,8 +211,7 @@ namespace Book_Management.Controllers
                     Image.CopyTo(fileStream);
                 }
             }
-            //return filePath;
-            return fileName;
+            return filePath;
         }
         private string UploadFile(IFormFile File)
         {
@@ -208,18 +225,19 @@ namespace Book_Management.Controllers
                     File.CopyTo(fileStream);
                 }
             }
-            //return filePath;
-            return fileName;
+            return filePath;
         }
 
 
 
-        [NonAction]
-        private void CategoryList()
-        {
-            var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
-            ViewBag.categoryList = new SelectList(categoryList, "CategoryId", "CategoryName");
-        }
+        #region 
+        //[NonAction]
+        //private void CategoryList()
+        //{
+        //    var categoryList = _db.CategoryMsts.Where(u => u.IsDelete == false).ToList();
+        //    ViewBag.categoryList = new SelectList(categoryList, "CategoryId", "CategoryName");
+        //} 
+        #endregion
 
         public JsonResult GetSubCategory(int CategoryId)
         {

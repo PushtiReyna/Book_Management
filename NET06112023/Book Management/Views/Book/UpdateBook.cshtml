@@ -1,4 +1,4 @@
-﻿@model Book_Management.Models.BookMst
+﻿@model Book_Management.ViewModel.Book.UpdateBookViewModel
 
 @{
     ViewData["Title"] = "UpdateBook";
@@ -16,7 +16,7 @@
 
         <div class="form-group col-md-6">
             <label>Category Name</label>
-            <select class="form-control" asp-for="CategoryId" id="CategoryId" asp-items="ViewBag.categoryList">
+            <select class="form-control" asp-for="CategoryId" id="CategoryId" asp-items="ViewBag.categoryList" selected>
                 <option>Select category</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -24,7 +24,7 @@
 
         <div class="form-group col-md-6">
             <label>subcategory Name</label>
-            <select class="form-control" asp-for="SubcategoryId" id="SubcategoryId" asp-items="ViewBag.stateName">
+            <select class="form-control" asp-for="SubcategoryId" id="SubcategoryId" asp-items="ViewBag.subcategoryName" selected>
                 <option>Select subcategory</option>
             </select>
             <span asp-validation-for="SubcategoryId" class="text-danger"></span>
@@ -80,14 +80,18 @@
 
         <div class="form-group col-md-6 mb-3">
             <label class=" form-label"> CoverImagePath</label>
-            <input type="file" class=" form-control" asp-for=CoverImagePath accept="image/x-png,image/jpg,image/jpeg" />
-            <span asp-validation-for="CoverImagePath" class="text-danger"></span>
+            <img id="previewphoto" src="~/Images/@Model.CoverImagePath" width="125" height="125" />
+            <input type="file" class=" form-control" asp-for=Image accept="image/x-png,image/jpg,image/jpeg" />
+            <span asp-validation-for="Image" class="text-danger"></span>
         </div>
+
+      
 
         <div class="form-group col-md-6 mb-3">
             <label> PdfPath</label>
-            <input type="file" class="form-control" asp-for="PdfPath" accept="pdf" />
-            <span asp-validation-for="PdfPath" class="text-danger"></span>
+            <img id="previewphoto" src="~/PDF/@Model.PdfPath" width="125" height="125" />
+            <input type="file" class="form-control" asp-for="File" accept="pdf"  />
+            <span asp-validation-for="File" class="text-danger"></span>
         </div>
 
 
