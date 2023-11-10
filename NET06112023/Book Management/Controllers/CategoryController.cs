@@ -70,6 +70,7 @@ namespace Book_Management.Controllers
             {
                 var updateCategoryView = new UpdateCategoryViewModel()
                 {
+                    CategoryId = updateCategory.CategoryId,
                     CategoryName = updateCategory.CategoryName,
                 };
                 return View(updateCategoryView);

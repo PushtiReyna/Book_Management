@@ -101,6 +101,7 @@ namespace Book_Management.Controllers
             {
                 var updateSubCategoryView = new UpdateSubCategoryViewModel()
                 {
+                    SubcategoryId = updateSubCategory.SubcategoryId,
                     SubcategoryName = updateSubCategory.SubcategoryName,
                     CategoryId = updateSubCategory.CategoryId,
                 };

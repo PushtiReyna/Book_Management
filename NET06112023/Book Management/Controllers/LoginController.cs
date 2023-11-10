@@ -42,7 +42,7 @@ namespace Book_Management.Controllers
 
                     _db.UserMsts.Add(userMst);
                     _db.SaveChanges();
-                    return RedirectToAction("GetUser");
+                    return RedirectToAction("Login");
                 }
                 else
                 {

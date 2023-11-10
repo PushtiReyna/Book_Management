@@ -80,8 +80,8 @@
 
         <div class="form-group col-md-6 mb-3">
             <label class=" form-label"> CoverImagePath</label>
-            <img id="previewphoto" src="~/Images/@Model.CoverImagePath" width="125" height="125" />
-            <input type="file" class=" form-control" asp-for=Image accept="image/x-png,image/jpg,image/jpeg" />
+            <img id="previewphoto" src="~/@Model.CoverImagePath" width="125" height="125" />
+            <input type="file" class=" form-control" asp-for=Image src="~/@Model.CoverImagePath"/>
             <span asp-validation-for="Image" class="text-danger"></span>
         </div>
 

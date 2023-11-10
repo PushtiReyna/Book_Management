@@ -98,6 +98,7 @@ namespace Book_Management.Controllers
 
                 var updateBookView = new UpdateBookViewModel()
                 {
+                    BookId = updateBook.BookId,
                     CategoryId = updateBook.CategoryId,
                     SubcategoryId = updateBook.SubcategoryId,
                     BookName = updateBook.BookName,
@@ -108,6 +109,7 @@ namespace Book_Management.Controllers
                     Edition = updateBook.Edition,
                     Description = updateBook.Description,
                     Price = updateBook.Price
+                    
                 };
                 return View(updateBookView);
 
@@ -158,7 +160,7 @@ namespace Book_Management.Controllers
 
                     _db.Entry(updateBook).State = EntityState.Modified;
                     _db.SaveChanges();
-                    return RedirectToAction("GetCategory");
+                    return RedirectToAction("GetBook");
 
                 }
                 else
@@ -196,17 +198,18 @@ namespace Book_Management.Controllers
 
                 return File(fileBytes, "application/force-download", fileName);
             }
-            return RedirectToAction("GetBook");
+            return Redirect("GetBook");
         }
 
         private string UploadImage(IFormFile Image)
         {
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
             string fileName = Image.FileName;
-            string filePath = Path.Combine(path, fileName);
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", fileName);
+           
+            string filePath = Path.Combine("Images", fileName);
             if (fileName != null)
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     Image.CopyTo(fileStream);
                 }

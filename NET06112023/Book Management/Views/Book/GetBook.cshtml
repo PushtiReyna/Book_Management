@@ -36,7 +36,7 @@
             {
 
                 <tr class="table-row">
-                    <td style="border:none"> <img src="@("~/Images/"+item.CoverImagePath)" asp-append-version="true" height="100px" width="300px"/></td>
+                    <td style="border:none"> <img src="@("~/"+item.CoverImagePath)" asp-append-version="true" height="100px" width="300px" /></td>
                     <td>
                         <a class=" btn btn-warning m-1" asp-action="UpdateBook" asp-route-id="@item.BookId">Edit</a>
                         <a class="btn btn-warning m-1" asp-action="DownloadBook" asp-route-id="@item.BookId">Download</a>

@@ -66,6 +66,7 @@ namespace Book_Management.Controllers
             {
                 var updateUserView = new UpdateUserViewModel()
                 {
+                    UserId = updateUser.UserId,
                     FullName = updateUser.FullName,
                     Email = updateUser.Email,
                     UserName = updateUser.UserName,
