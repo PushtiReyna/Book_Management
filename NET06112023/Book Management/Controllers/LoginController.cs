@@ -27,7 +27,7 @@ namespace Book_Management.Controllers
             {
                 UserMst userMst = new UserMst();
 
-                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == registrationViewModel.Email).ToList();
+                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == registrationViewModel.Email.Trim()).ToList();
                 if (userList.Count <= 0)
                 {
                     userMst.FullName = registrationViewModel.FullName.Trim();
@@ -64,7 +64,7 @@ namespace Book_Management.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel loginViewModel)
         {
-            var user = _db.UserMsts.Where(x => x.UserName == loginViewModel.UserName && x.Password == loginViewModel.Password && x.IsDelete == false).FirstOrDefault();
+            var user = _db.UserMsts.Where(x => x.UserName == loginViewModel.UserName.Trim() && x.Password == loginViewModel.Password.Trim() && x.IsDelete == false).FirstOrDefault();
             if (user != null)
             {
                 HttpContext.Session.SetString("UserSession", user.UserName);

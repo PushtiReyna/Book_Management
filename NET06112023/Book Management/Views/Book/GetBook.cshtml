@@ -52,6 +52,9 @@
                     <td>
                         <a class=" btn btn-warning m-1" asp-action="UpdateBook" asp-route-id="@item.BookId">Edit</a>
                         <a class="btn btn-warning m-1" asp-action="DownloadBook" asp-route-id="@item.BookId">Download</a>
+
+                       @* <a href="@item.CoverImagePath" id="lnkDownloadDoc1" target="_blank" class="btn btn-warning m-1">Download</a>
+*@
                         <a class=" btn btn-danger m-1"  asp-action="DeleteBook" asp-route-id="@item.BookId">Delete</a>
                     </td>
                 </tr>
@@ -63,8 +66,8 @@
 
 @section scripts{
     @{
-
         <script type="text/javascript">
+
             setTimeout(function () {
                 $('#message').hide(3000);
             });
@@ -72,18 +75,10 @@
     }
 }
 
-
-@*@section scripts{
-    @{
-
-        <script type="text/javascript">
-            debugger;
-
+       @* <script type="text/javascript">
             function (alert) {
                 window.alert("Hello world!");
             }
+        </script>*@
 
 
-        </script>
-    }
-}*@

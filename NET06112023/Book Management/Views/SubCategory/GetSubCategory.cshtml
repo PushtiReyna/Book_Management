@@ -24,7 +24,7 @@
             </div>
 
 
-            <table class="table table-bordered " id="tbllist">
+            <table class="table table-bordered-none table-responsive" id="tbllist">
                 <thead>
                     <tr class="text-center">
                         <th>Category Name</th>
@@ -48,10 +48,24 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+@*for jquery dataTables*@
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+
 @section scripts{
     @{
 
+
         <script type="text/javascript">
+
+        
+        $(document).ready(function () {
+            $('#tbllist').DataTable();
+        });
+
             setTimeout(function () {
                 $('#message').hide(3000);
             });

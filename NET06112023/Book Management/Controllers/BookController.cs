@@ -1,9 +1,11 @@
 ﻿using Book_Management.Models;
 using Book_Management.ViewModel;
 using Book_Management.ViewModel.Book;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using System.Net;
 
 namespace Book_Management.Controllers
@@ -12,10 +14,14 @@ namespace Book_Management.Controllers
     {
         private readonly BookManagementDbContext _db;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public BookController(BookManagementDbContext db, IWebHostEnvironment webHostEnvironment)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
+        public BookController(BookManagementDbContext db, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _db = db;
             _webHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -45,7 +51,7 @@ namespace Book_Management.Controllers
                 BookMst bookMst = new BookMst();
 
 
-                var bookList = _db.BookMsts.Where(x => x.IsDelete == false && x.BookName == addBookViewModel.BookName).ToList();
+                var bookList = _db.BookMsts.Where(x => x.IsDelete == false && x.BookName == addBookViewModel.BookName.Trim()).ToList();
                 if (bookList.Count <= 0)
                 {
                     string imgPath = UploadImage(addBookViewModel.Image);
@@ -84,7 +90,7 @@ namespace Book_Management.Controllers
         [HttpGet]
         public IActionResult UpdateBook(int id)
         {
-            
+
             var updateBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
             if (updateBook != null)
             {
@@ -109,7 +115,7 @@ namespace Book_Management.Controllers
                     Edition = updateBook.Edition,
                     Description = updateBook.Description,
                     Price = updateBook.Price
-                    
+
                 };
                 return View(updateBookView);
 
@@ -133,7 +139,7 @@ namespace Book_Management.Controllers
                 ViewBag.stateName = new SelectList(listsubcategory, "SubcategoryId", "SubcategoryName");
 
 
-                var bookList = _db.BookMsts.Where(x => x.BookName == updateBookViewModel.BookName && x.BookId != updateBookViewModel.BookId).ToList();
+                var bookList = _db.BookMsts.Where(x => x.BookName == updateBookViewModel.BookName.Trim() && x.BookId != updateBookViewModel.BookId).ToList();
                 if (bookList.Count <= 0)
                 {
                     if (updateBookViewModel.Image != null || updateBookViewModel.File != null)
@@ -187,26 +193,100 @@ namespace Book_Management.Controllers
             return RedirectToAction("GetBook");
         }
 
+        //public IActionResult DownloadBook(int id)
+        //{
+        //    var downoadBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
+        //    byte fileByte = new byte();
+        //    Byte[] fb = new byte[1000];
+        //    string fileName = "";
+        //    if (downoadBook != null)
+        //    {
+        //        string filePath = downoadBook.PdfPath;
+        //        fileName = downoadBook.BookName;
+        //        //string fileName1 = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + filePath);
+
+        //        //string ServerDomain = _httpContextAccessor.HttpContext.Request.Host.Value;
+        //        //var FileBaseURL = _configuration["FileBaseURL"].ToString();
+        //        //var res = !string.IsNullOrWhiteSpace(ServerDomain) ? ServerDomain : !string.IsNullOrWhiteSpace(FileBaseURL) ? FileBaseURL : _webHostEnvironment.WebRootPath;
+        //        //filePath = Path.Combine(res, fileName);
+
+
+
+
+        //        if (System.IO.File.Exists(fileName))
+        //        {
+        //            fileByte = Convert.ToByte(filePath);
+        //        }
+
+        //        string directoryPath = filePath != null  ? "/PDF" : "";
+        //        string relativeRootPath = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host + directoryPath;
+
+        //        filePath = Path.Combine(relativeRootPath, fileName);
+        //        FileStream fileStream = System.IO.File.OpenRead(filePath);
+        //        fb = new byte[fileByte];
+        //        fb = new Byte[fb.Length];
+
+        //        return File(fb, "application/force-download", fileName);
+        //    }
+        //    //return Redirect("GetBook");
+        //    return File(fb, "application/force-download", fileName);
+        //}
+
+      
         public IActionResult DownloadBook(int id)
         {
+            //var downoadBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
+            //string fileName = "";
+            //string filePath = "";
+
+            //byte[] fileBytes = new byte[1024];
+            //if (downoadBook != null)
+            //{
+            //     filePath = downoadBook.PdfPath;
+            //    fileName = downoadBook.BookName;
+            //    filePath = Path.Combine(_webHostEnvironment.WebRootPath,filePath);
+            //    if (System.IO.File.Exists(filePath))
+            //    {
+            //        //WebClient webClient = new WebClient();
+            //        // fileBytes = webClient.DownloadData(filePath);
+            //        var fileInfo = new System.IO.FileInfo(filePath);
+            //        Response.ContentType = "application/pdf";
+            //        Response.Headers.Add("Content-Disposition", "attachment;filename=\"" + fileInfo.Name + "\"");
+            //        Response.Headers.Add("Content-Length", fileInfo.Length.ToString());
+
+            //        // Send the file to the client
+
+
+            //    }
+            //}
+            //return File(System.IO.File.ReadAllBytes(filePath), "application/pdf", fileName);
+
             var downoadBook = _db.BookMsts.FirstOrDefault(x => x.BookId == id);
-            if (downoadBook != null)
+
+            string fileName = downoadBook.BookName;
+            string filePath = downoadBook.PdfPath;
+            var path = Path.Combine(_webHostEnvironment.WebRootPath , filePath);
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
             {
-                string filePath = downoadBook.PdfPath;
-                string fileName = downoadBook.BookName;
-
-                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-
-                return File(fileBytes, "application/force-download", fileName);
+                stream.CopyTo(memory);
             }
-            return Redirect("GetBook");
-        }
+            // memory.Position = 0;
 
+            //return File(memory, GetContentType(path), Path.GetFileName(path));
+            byte[] data = memory.ToArray();
+
+           // response.Data = (data, Path.GetFileName(path));
+
+            return File(data, "application/pdf", fileName);
+
+        }
         private string UploadImage(IFormFile Image)
         {
             string fileName = Image.FileName;
             string path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", fileName);
-           
+
             string filePath = Path.Combine("Images", fileName);
             if (fileName != null)
             {
@@ -219,12 +299,13 @@ namespace Book_Management.Controllers
         }
         private string UploadFile(IFormFile File)
         {
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, "PDF");
             string fileName = File.FileName;
-            string filePath = Path.Combine(path, fileName);
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "PDF", fileName);
+
+            string filePath = Path.Combine("PDF", fileName);
             if (fileName != null)
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     File.CopyTo(fileStream);
                 }

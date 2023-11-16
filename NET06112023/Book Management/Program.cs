@@ -1,7 +1,10 @@
 using Book_Management.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -12,6 +15,7 @@ builder.Services.AddSession();
 builder.Services.AddDbContext<BookManagementDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DBConnectionString")
     ));
+
 
 var app = builder.Build();
 

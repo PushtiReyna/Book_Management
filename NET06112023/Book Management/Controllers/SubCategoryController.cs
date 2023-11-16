@@ -69,7 +69,7 @@ namespace Book_Management.Controllers
             if (ModelState.IsValid)
             {
                 SubcategoryMst subcategoryMst = new SubcategoryMst();
-                var subcategoryList = _db.SubcategoryMsts.Where(x => x.IsDelete == false && x.SubcategoryName == addSubCategoryViewModel.SubcategoryName).ToList();
+                var subcategoryList = _db.SubcategoryMsts.Where(x => x.IsDelete == false && x.SubcategoryName == addSubCategoryViewModel.SubcategoryName.Trim()).ToList();
                 if (subcategoryList.Count <= 0)
                 {
                     subcategoryMst.CategoryId = addSubCategoryViewModel.CategoryId;
@@ -118,7 +118,7 @@ namespace Book_Management.Controllers
             var updateSubCategory = _db.SubcategoryMsts.FirstOrDefault(x => x.SubcategoryId == updateSubCategoryViewModel.SubcategoryId);
             if (updateSubCategory != null)
             {
-                var subcategoryList = _db.SubcategoryMsts.Where(x => x.IsDelete == false && x.SubcategoryName == updateSubCategoryViewModel.SubcategoryName && x.SubcategoryId != updateSubCategoryViewModel.SubcategoryId).ToList();
+                var subcategoryList = _db.SubcategoryMsts.Where(x => x.IsDelete == false && x.SubcategoryName == updateSubCategoryViewModel.SubcategoryName.Trim() && x.SubcategoryId != updateSubCategoryViewModel.SubcategoryId).ToList();
                 if (subcategoryList.Count <= 0)
                 {
                     updateSubCategory.CategoryId = updateSubCategoryViewModel.CategoryId;

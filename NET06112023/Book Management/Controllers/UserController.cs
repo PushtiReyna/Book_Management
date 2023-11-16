@@ -33,7 +33,7 @@ namespace Book_Management.Controllers
             {
                 UserMst userMst = new UserMst();
 
-                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == addUserViewModel.Email).ToList();
+                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == addUserViewModel.Email.Trim()).ToList();
                 if (userList.Count <= 0)
                 {
                     userMst.FullName = addUserViewModel.FullName.Trim();
@@ -85,7 +85,7 @@ namespace Book_Management.Controllers
             var updateUser = _db.UserMsts.FirstOrDefault(x => x.UserId == updateUserViewModel.UserId);
             if (updateUser != null)
             {
-                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == updateUserViewModel.Email && x.UserId != updateUserViewModel.UserId).ToList();
+                var userList = _db.UserMsts.Where(x => x.IsDelete == false && x.Email == updateUserViewModel.Email.Trim() && x.UserId != updateUserViewModel.UserId).ToList();
                 if (userList.Count <= 0)
                 {
                     updateUser.FullName = updateUserViewModel.FullName.Trim();
