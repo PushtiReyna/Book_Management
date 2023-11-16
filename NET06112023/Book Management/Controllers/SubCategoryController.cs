@@ -149,6 +149,7 @@ namespace Book_Management.Controllers
 
                 _db.Entry(deleteSubCategory).State = EntityState.Modified;
                 _db.SaveChanges();
+                TempData["DeleteSubCategory"] = "SubCategory successfully deleted!";
             }
             return RedirectToAction("GetSubCategory");
         }

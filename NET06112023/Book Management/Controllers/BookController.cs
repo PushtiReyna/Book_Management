@@ -182,6 +182,7 @@ namespace Book_Management.Controllers
 
                 _db.Entry(deleteBook).State = EntityState.Modified;
                 _db.SaveChanges();
+                TempData["DeleteBook"] = "Book successfully deleted!";
             }
             return RedirectToAction("GetBook");
         }

@@ -120,6 +120,7 @@ namespace Book_Management.Controllers
 
                 _db.Entry(deleteUser).State = EntityState.Modified;
                 _db.SaveChanges();
+                TempData["DeleteUser"] = "User successfully deleted!";
 
             }
             return RedirectToAction("GetUser");
