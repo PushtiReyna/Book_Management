@@ -47,7 +47,7 @@
 </div>
 
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+@*<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @*for jquery dataTables*@
@@ -58,7 +58,13 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#tbllist').DataTable();
+            $('#tbllist').DataTable({
+
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print',
+                ],
+            });
         });
 
         //$(document).ready(function () {
