@@ -81,7 +81,7 @@ namespace Book_Management.Controllers
 
         }
         [HttpPost]
-        public IActionResult EditCategory(UpdateCategoryViewModel updateCategoryViewModel)
+        public IActionResult UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
         {
             var updateCategory = _db.CategoryMsts.FirstOrDefault(x => x.CategoryId == updateCategoryViewModel.CategoryId);
             if (updateCategory != null)
